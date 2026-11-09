@@ -101,6 +101,10 @@
     .menu-links a:hover { color: var(--titulo); }
     .menu-dir { display: flex; align-items: center; gap: 10px; }
     .menu .btn { padding: 11px 18px; font-size: 14px; }
+    .idioma { display: inline-flex; border: 1px solid var(--linha); border-radius: 999px; padding: 3px; background: var(--branco); }
+    .idioma button { border: 0; background: transparent; color: var(--apoio); font-size: 13px; font-weight: 600; line-height: 1; padding: 8px 11px; border-radius: 999px; }
+    .idioma button[aria-pressed="true"] { background: var(--titulo); color: var(--branco); }
+    .idioma button:not([aria-pressed="true"]):hover { color: var(--titulo); }
     .menu-abrir { display: none; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--linha); background: var(--branco); align-items: center; justify-content: center; color: var(--titulo); }
     .menu-abrir svg { width: 18px; height: 18px; }
 
@@ -327,15 +331,19 @@
     <div class="box">
       <a class="marca-nome" href="#inicio" id="menu-nome"></a>
       <ul class="menu-links" id="menu-links">
-        <li><a href="#sobre">Sobre mim</a></li>
-        <li><a href="#destaques">Destaques</a></li>
-        <li><a href="#nichos">Nichos</a></li>
-        <li><a href="#marcas">O que as marcas falam</a></li>
-        <li><a href="#contato">Contato</a></li>
+        <li><a href="#sobre" data-t="nav.sobre">Sobre mim</a></li>
+        <li><a href="#destaques" data-t="nav.destaques">Destaques</a></li>
+        <li><a href="#nichos" data-t="nav.nichos">Nichos</a></li>
+        <li><a href="#marcas" data-t="nav.marcas">O que as marcas falam</a></li>
+        <li><a href="#contato" data-t="nav.contato">Contato</a></li>
       </ul>
       <div class="menu-dir">
-        <a class="btn btn-preto" href="#contato">Falar comigo</a>
-        <button class="menu-abrir" id="menu-abrir" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-links"></button>
+        <div class="idioma" id="idioma" role="group" aria-label="Idioma / Language">
+          <button type="button" data-lang="pt" lang="pt-BR" aria-pressed="true">PT</button>
+          <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+        </div>
+        <a class="btn btn-preto" href="#contato" data-t="falar">Falar comigo</a>
+        <button class="menu-abrir" id="menu-abrir" type="button" aria-label="Abrir menu" data-ta="aria.menu" aria-expanded="false" aria-controls="menu-links"></button>
       </div>
     </div>
   </header>
@@ -345,22 +353,22 @@
     <section class="capa" id="inicio">
       <div class="box capa-grade">
         <div>
-          <span class="etiqueta">✦ UGC creator · Brilho da Rafa Chagas</span>
+          <span class="etiqueta" data-t="capa.etiqueta">✦ UGC creator · Brilho da Rafa Chagas</span>
           <h1 id="capa-nome"></h1>
           <p class="capa-nichos" id="capa-nichos"></p>
           <p class="capa-frase" id="capa-frase"></p>
           <div class="provas" id="capa-provas"></div>
           <div class="botoes">
-            <a class="btn btn-preto" href="#destaques">Ver meus melhores vídeos</a>
-            <a class="btn btn-borda" href="#contato">Falar comigo</a>
+            <a class="btn btn-preto" href="#destaques" data-t="capa.ver">Ver meus melhores vídeos</a>
+            <a class="btn btn-borda" href="#contato" data-t="falar">Falar comigo</a>
           </div>
         </div>
         <div class="capa-foto">
           <div class="foto" id="capa-foto"></div>
-          <div class="selo-brilho" aria-label="Brilho, aluna Rafa Chagas" role="img">
+          <div class="selo-brilho" aria-label="Brilho, aluna Rafa Chagas" data-ta="aria.selo" role="img">
             <svg class="giro" viewBox="0 0 128 128" aria-hidden="true">
               <defs><path id="circulo-selo" d="M64,64 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs>
-              <text><textPath href="#circulo-selo" textLength="292" lengthAdjust="spacing">BRILHO · ALUNA RAFA CHAGAS ·</textPath></text>
+              <text><textPath href="#circulo-selo" textLength="292" lengthAdjust="spacing" data-t="selo">BRILHO · ALUNA RAFA CHAGAS ·</textPath></text>
             </svg>
             <span class="selo-miolo" aria-hidden="true">✦</span>
           </div>
@@ -373,17 +381,17 @@
       <div class="box sobre-grade">
         <div class="foto" id="sobre-foto"></div>
         <div class="sobre-texto">
-          <span class="etiqueta">Sobre mim</span>
+          <span class="etiqueta" data-t="sobre.etiqueta">Sobre mim</span>
           <h2 class="titulo" id="sobre-titulo"></h2>
           <div id="sobre-paragrafos"></div>
           <ul class="difs" id="sobre-difs"></ul>
-          <span class="selo-metodo">✦ Formada no <b>Método Profissão do Futuro</b> · aluna da Rafa Chagas</span>
+          <span class="selo-metodo" data-t="sobre.metodo">✦ Formada no <b>Método Profissão do Futuro</b> · aluna da Rafa Chagas</span>
         </div>
       </div>
     </section>
 
     <!-- Faixa de marcas (não é seção) -->
-    <div class="faixa" aria-label="Marcas que já atendi">
+    <div class="faixa" aria-label="Marcas que já atendi" data-ta="marcas.atendidas">
       <div class="faixa-trilho" id="faixa"></div>
     </div>
 
@@ -391,8 +399,8 @@
     <section class="secao" id="destaques">
       <div class="box">
         <div class="cabeca">
-          <span class="etiqueta">Destaques</span>
-          <h2 class="titulo">Meus melhores vídeos</h2>
+          <span class="etiqueta" data-t="nav.destaques">Destaques</span>
+          <h2 class="titulo" data-t="destaques.titulo">Meus melhores vídeos</h2>
         </div>
         <div class="destaques-grade" id="destaques-grade"></div>
       </div>
@@ -402,10 +410,10 @@
     <section class="secao" id="nichos" style="border-top:1px solid var(--linha)">
       <div class="box">
         <div class="cabeca">
-          <span class="etiqueta">Nichos</span>
-          <h2 class="titulo">Ache o vídeo do seu nicho</h2>
+          <span class="etiqueta" data-t="nav.nichos">Nichos</span>
+          <h2 class="titulo" data-t="nichos.titulo">Ache o vídeo do seu nicho</h2>
         </div>
-        <nav class="atalhos" id="atalhos" aria-label="Atalhos dos nichos"></nav>
+        <nav class="atalhos" id="atalhos" aria-label="Atalhos dos nichos" data-ta="aria.atalhos"></nav>
         <div id="nichos-paginas"></div>
       </div>
     </section>
@@ -414,11 +422,11 @@
     <section class="secao cinza" id="marcas">
       <div class="box">
         <div class="cabeca">
-          <span class="etiqueta">O que as marcas falam</span>
-          <h2 class="titulo">Quem já gravou comigo</h2>
+          <span class="etiqueta" data-t="nav.marcas">O que as marcas falam</span>
+          <h2 class="titulo" data-t="marcas.titulo">Quem já gravou comigo</h2>
         </div>
         <div class="elogios" id="elogios"></div>
-        <p class="atendidas-titulo">Marcas que já atendi</p>
+        <p class="atendidas-titulo" data-t="marcas.atendidas">Marcas que já atendi</p>
         <ul class="pilulas" id="atendidas"></ul>
       </div>
     </section>
@@ -427,9 +435,9 @@
     <section class="secao contato" id="contato">
       <div class="box">
         <div class="cabeca">
-          <span class="etiqueta">Contato</span>
-          <h2 class="titulo">Bora fazer o vídeo da sua marca?</h2>
-          <p>Me conta qual é o produto e pra quando você precisa. Eu respondo rapidinho.</p>
+          <span class="etiqueta" data-t="nav.contato">Contato</span>
+          <h2 class="titulo" data-t="contato.titulo">Bora fazer o vídeo da sua marca?</h2>
+          <p data-t="contato.texto">Me conta qual é o produto e pra quando você precisa. Eu respondo rapidinho.</p>
         </div>
         <div class="botoes">
           <a class="btn btn-preto" id="contato-principal" target="_blank" rel="noopener"></a>
@@ -444,7 +452,7 @@
   <footer class="rodape">
     <div class="box">
       <strong id="rodape-nome"></strong>
-      <span>UGC creator · aluna da Rafa Chagas</span>
+      <span data-t="rodape">UGC creator · aluna da Rafa Chagas</span>
     </div>
   </footer>
 
@@ -452,8 +460,8 @@
   <a class="zap" id="zap" target="_blank" rel="noopener"></a>
 
   <!-- Player grande -->
-  <div class="player" id="player" role="dialog" aria-modal="true" aria-label="Vídeo" hidden>
-    <button class="player-x" type="button" aria-label="Fechar vídeo"></button>
+  <div class="player" id="player" role="dialog" aria-modal="true" aria-label="Vídeo" data-ta="aria.player" hidden>
+    <button class="player-x" type="button" aria-label="Fechar vídeo" data-ta="aria.fechar"></button>
     <video controls playsinline></video>
   </div>
 
@@ -478,6 +486,137 @@
     insta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>'
   };
 
+  /* IDIOMA: PT ou EN. O botão no menu troca e a escolha fica lembrada.
+     O link com ?lang=en abre direto em inglês (bom pra mandar pra marca gringa). */
+  const IDIOMA = (() => {
+    let l = new URLSearchParams(location.search).get('lang');
+    if (!l) { try { l = localStorage.getItem('idioma'); } catch (e) { /* sem memória, tudo bem */ } }
+    return l === 'en' ? 'en' : 'pt';
+  })();
+
+  // Textos fixos da página nas duas línguas
+  const TXT = {
+    pt: {
+      'nav.sobre': 'Sobre mim', 'nav.destaques': 'Destaques', 'nav.nichos': 'Nichos', 'nav.marcas': 'O que as marcas falam', 'nav.contato': 'Contato',
+      'falar': 'Falar comigo',
+      'capa.etiqueta': '✦ UGC creator · Brilho da Rafa Chagas',
+      'capa.ver': 'Ver meus melhores vídeos',
+      'capa.de': 'UGC creator de ',
+      'selo': 'BRILHO · ALUNA RAFA CHAGAS ·',
+      'sobre.etiqueta': 'Sobre mim',
+      'sobre.titulo': (n) => `Prazer, eu sou a ${n}.`,
+      'sobre.metodo': '✦ Formada no <b>Método Profissão do Futuro</b> · aluna da Rafa Chagas',
+      'destaques.titulo': 'Meus melhores vídeos',
+      'destaques.forte': '✦ o mais forte',
+      'nichos.titulo': 'Ache o vídeo do seu nicho',
+      'nichos.qtd': (q) => `${q} ${q === 1 ? 'vídeo' : 'vídeos'}`,
+      'nichos.minimo': 'mínimo 3 vídeos: com menos, tire o nicho',
+      'nichos.antes': (n) => `Vídeos anteriores de ${n}`,
+      'nichos.depois': (n) => `Próximos vídeos de ${n}`,
+      'marcas.titulo': 'Quem já gravou comigo',
+      'marcas.atendidas': 'Marcas que já atendi',
+      'elogio.dica': 'Cole aqui a frase ou o print real da marca',
+      'elogio.marca': 'Nome da marca',
+      'elogio.detalhe': 'Contexto: qual vídeo, qual campanha',
+      'contato.titulo': 'Bora fazer o vídeo da sua marca?',
+      'contato.texto': 'Me conta qual é o produto e pra quando você precisa. Eu respondo rapidinho.',
+      'contato.whats': 'Chamar no WhatsApp',
+      'contato.email': 'Mandar e-mail',
+      'contato.msg': (n) => `Oi, ${n}! Vi seu portfólio e quero conversar sobre vídeos pra minha marca.`,
+      'contato.assunto': 'Vídeos pra minha marca',
+      'duvida.dica': 'Escreva aqui a sua regra pra essa dúvida',
+      'rodape': 'UGC creator · aluna da Rafa Chagas',
+      'video.assistir': 'Assistir com som: ',
+      'video.youtube': 'Vídeo do YouTube',
+      'form.titulo': 'Pedir orçamento', 'form.sub': 'Cinco respostas rápidas e eu te chamo.',
+      'form.nome': 'Seu nome', 'form.empresa': 'Empresa', 'form.produto': 'Produto', 'form.prazo': 'Prazo', 'form.prazoEx': 'Ex.: até 20/12',
+      'form.enviar': 'Enviar pedido', 'form.enviando': 'Enviando…', 'form.ok': 'Recebi! Te chamo em breve.', 'form.erro': 'Não consegui enviar agora. Me chama direto:',
+      'aria.menu': 'Abrir menu', 'aria.selo': 'Brilho, aluna Rafa Chagas', 'aria.atalhos': 'Atalhos dos nichos', 'aria.player': 'Vídeo', 'aria.fechar': 'Fechar vídeo'
+    },
+    en: {
+      'nav.sobre': 'About me', 'nav.destaques': 'Highlights', 'nav.nichos': 'Niches', 'nav.marcas': 'What brands say', 'nav.contato': 'Contact',
+      'falar': "Let's talk",
+      'capa.etiqueta': '✦ UGC creator · Rafa Chagas Brilho',
+      'capa.ver': 'See my best videos',
+      'capa.de': 'UGC creator for ',
+      'selo': 'BRILHO · RAFA CHAGAS STUDENT ·',
+      'sobre.etiqueta': 'About me',
+      'sobre.titulo': (n) => `Nice to meet you, I'm ${n}.`,
+      'sobre.metodo': '✦ Graduate of the <b>Método Profissão do Futuro</b> · Rafa Chagas student',
+      'destaques.titulo': 'My best videos',
+      'destaques.forte': '✦ the strongest',
+      'nichos.titulo': 'Find the video for your niche',
+      'nichos.qtd': (q) => `${q} ${q === 1 ? 'video' : 'videos'}`,
+      'nichos.minimo': 'minimum 3 videos: with fewer, remove the niche',
+      'nichos.antes': (n) => `Previous ${n} videos`,
+      'nichos.depois': (n) => `Next ${n} videos`,
+      'marcas.titulo': "Who I've worked with",
+      'marcas.atendidas': "Brands I've worked with",
+      'elogio.dica': "Paste the brand's real quote or screenshot here",
+      'elogio.marca': 'Brand name',
+      'elogio.detalhe': 'Context: which video, which campaign',
+      'contato.titulo': "Let's make your brand's video?",
+      'contato.texto': "Tell me about your product and when you need it. I'll get back to you quickly.",
+      'contato.whats': 'Message me on WhatsApp',
+      'contato.email': 'Send an email',
+      'contato.msg': (n) => `Hi, ${n}! I saw your portfolio and I'd like to talk about videos for my brand.`,
+      'contato.assunto': 'Videos for my brand',
+      'duvida.dica': 'Write your rule for this question here',
+      'rodape': 'UGC creator · Rafa Chagas student',
+      'video.assistir': 'Watch with sound: ',
+      'video.youtube': 'YouTube video',
+      'form.titulo': 'Request a quote', 'form.sub': "Five quick answers and I'll reach out.",
+      'form.nome': 'Your name', 'form.empresa': 'Company', 'form.produto': 'Product', 'form.prazo': 'Deadline', 'form.prazoEx': 'E.g.: by Dec 20',
+      'form.enviar': 'Send request', 'form.enviando': 'Sending…', 'form.ok': "Got it! I'll reach out soon.", 'form.erro': "Couldn't send right now. Message me directly:",
+      'aria.menu': 'Open menu', 'aria.selo': 'Brilho, Rafa Chagas student', 'aria.atalhos': 'Niche shortcuts', 'aria.player': 'Video', 'aria.fechar': 'Close video'
+    }
+  };
+  function t(chave, ...extra) {
+    const v = TXT[IDIOMA][chave] != null ? TXT[IDIOMA][chave] : TXT.pt[chave];
+    return typeof v === 'function' ? v(...extra) : (v == null ? chave : v);
+  }
+
+  // Põe os textos fixos na língua escolhida e liga o botão PT/EN
+  function aplicarIdioma() {
+    document.documentElement.lang = IDIOMA === 'en' ? 'en' : 'pt-BR';
+    document.querySelectorAll('[data-t]').forEach((el) => { el.innerHTML = t(el.dataset.t); });
+    document.querySelectorAll('[data-ta]').forEach((el) => el.setAttribute('aria-label', t(el.dataset.ta)));
+    document.querySelectorAll('#idioma button').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === IDIOMA));
+      b.addEventListener('click', () => trocarIdioma(b.dataset.lang));
+    });
+  }
+  function trocarIdioma(l) {
+    if (l === IDIOMA) return;
+    try { localStorage.setItem('idioma', l); } catch (e) { /* sem memória, tudo bem */ }
+    try { sessionStorage.setItem('rolagem', String(window.scrollY)); } catch (e) { /* idem */ }
+    const u = new URL(location.href);
+    u.searchParams.set('lang', l);
+    location.replace(u.href);
+  }
+
+  // Em inglês, usa os textos de DADOS.ingles (o que estiver vazio fica em português)
+  function traduzir(D) {
+    const nichosComId = D.nichos.map((n) => Object.assign({}, n, { id: slug(n.nome) }));
+    if (IDIOMA !== 'en' || !D.ingles) return Object.assign({}, D, { nichos: nichosComId });
+    const I = D.ingles;
+    const ou = (a, b) => ((Array.isArray(a) ? a.length : a) ? a : b);
+    const termo = (x) => (I.termos && I.termos[x]) || x;
+    return Object.assign({}, D, {
+      nichosResumo: ou(I.nichosResumo, D.nichosResumo),
+      frase: ou(I.frase, D.frase),
+      provas: ou(I.provas, D.provas),
+      sobreTexto: ou(I.sobreTexto, D.sobreTexto),
+      diferenciais: ou(I.diferenciais, D.diferenciais),
+      duvidas: ou(I.duvidas, D.duvidas),
+      destaques: D.destaques.map((v) => Object.assign({}, v, { nicho: termo(v.nicho), formato: termo(v.formato) })),
+      nichos: nichosComId.map((n) => Object.assign({}, n, {
+        nome: (I.nichos && I.nichos[n.nome]) || n.nome,
+        videos: n.videos.map((v) => Object.assign({}, v, { formato: termo(v.formato) }))
+      }))
+    });
+  }
+
   const $ = (id) => document.getElementById(id);
   const esc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const slug = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -499,7 +638,7 @@
     const f = document.createElement('iframe');
     f.className = classe;
     f.src = linkYoutube(id, extra);
-    f.title = 'Vídeo do YouTube';
+    f.title = t('video.youtube');
     f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.allowFullscreen = true;
     f.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -519,7 +658,7 @@
     box.insertAdjacentHTML('beforeend', `<span class="vid-play" aria-hidden="true">${ICONE.play}</span>`);
     selo();
     box.setAttribute('role', 'button'); box.tabIndex = 0;
-    box.setAttribute('aria-label', 'Assistir com som: ' + (v.titulo || 'vídeo'));
+    box.setAttribute('aria-label', t('video.assistir') + (v.titulo || t('aria.player')));
     box.addEventListener('click', () => abrirPlayer(v));
     box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirPlayer(v); } });
     // O mais forte toca sozinho, sem som, quando aparece na tela
@@ -573,7 +712,7 @@
     box.insertAdjacentHTML('beforeend', `<span class="vid-play" aria-hidden="true">${ICONE.play}</span>`);
     selo();
     box.setAttribute('role', 'button'); box.tabIndex = 0;
-    box.setAttribute('aria-label', 'Assistir com som: ' + (v.titulo || 'vídeo'));
+    box.setAttribute('aria-label', t('video.assistir') + (v.titulo || t('aria.player')));
 
     const abrir = () => { if (!box.classList.contains('vazio')) abrirPlayer(v); };
     box.addEventListener('click', abrir);
@@ -658,13 +797,16 @@
     trilho.addEventListener('dragstart', (e) => e.preventDefault());
   }
 
-  function montar(D) {
+  function montar(DADOS_ORIGINAIS) {
+    const D = traduzir(DADOS_ORIGINAIS);
+    aplicarIdioma();
+    if (IDIOMA === 'en') document.title = `${D.nome} · UGC portfolio`;
     const primeiro = D.nome.split(' ')[0];
-    const mensagem = `Oi, ${primeiro}! Vi seu portfólio e quero conversar sobre vídeos pra minha marca.`;
+    const mensagem = t('contato.msg', primeiro);
     const zap = String(D.whatsapp || '').replace(/\D/g, '');
     const linkContato = zap
       ? `https://wa.me/${zap}?text=${encodeURIComponent(mensagem)}`
-      : `mailto:${D.email}?subject=${encodeURIComponent('Vídeos pra minha marca')}&body=${encodeURIComponent(mensagem)}`;
+      : `mailto:${D.email}?subject=${encodeURIComponent(t('contato.assunto'))}&body=${encodeURIComponent(mensagem)}`;
     const insta = String(D.instagram || '').replace(/^@/, '');
 
     // Menu
@@ -682,14 +824,14 @@
 
     // 1. Capa
     $('capa-nome').textContent = D.nome;
-    $('capa-nichos').textContent = 'UGC creator de ' + D.nichosResumo;
+    $('capa-nichos').textContent = t('capa.de') + D.nichosResumo;
     $('capa-frase').textContent = D.frase;
     $('capa-provas').innerHTML = D.provas.map((p) => `<div class="prova"><strong>${esc(p.numero)}</strong><span>${esc(p.texto)}</span></div>`).join('');
     foto($('capa-foto'), D.fotoCapa, 'Foto de ' + D.nome, 'Retrato com rosto, luz natural e ambiente real. Sem selfie: a capa mostra o seu nível');
 
     // 2. Sobre mim
     foto($('sobre-foto'), D.fotoSobre, D.nome + ' no dia a dia', 'Você no dia a dia: gravando ou usando um produto, com luz natural');
-    $('sobre-titulo').textContent = `Prazer, eu sou a ${primeiro}.`;
+    $('sobre-titulo').textContent = t('sobre.titulo', primeiro);
     $('sobre-paragrafos').innerHTML = D.sobreTexto.map((t) => t
       ? `<p>${esc(t)}</p>`
       : lacuna('texto', 'Conte aqui sua rotina e por que as marcas do seu nicho combinam com você.', '', 'lacuna-texto')).join('');
@@ -707,7 +849,7 @@
     D.destaques.slice(0, 3).forEach((v, i) => {
       const card = document.createElement('article');
       card.className = 'dest-card' + (i === 0 ? ' forte' : '');
-      card.innerHTML = `<div class="dest-legenda">${i === 0 ? '<span class="etiqueta">✦ o mais forte</span>' : ''}</div>`;
+      card.innerHTML = `<div class="dest-legenda">${i === 0 ? `<span class="etiqueta">${t('destaques.forte')}</span>` : ''}</div>`;
       const box = criarVideo(v, { auto: i === 0, dica: 'Os melhores na frente, não os mais recentes' });
       card.append(box);
       card.insertAdjacentHTML('beforeend', `<div class="dest-info"><h3>${esc(v.titulo)}</h3><p>${esc([v.nicho, v.formato].filter(Boolean).join(' · '))}</p></div>`);
@@ -715,21 +857,22 @@
     });
 
     // 4. Nichos: uma página por nicho, com carrossel
-    $('atalhos').innerHTML = D.nichos.map((n) => `<a href="#nicho-${slug(n.nome)}">${esc(n.nome)}<span>${n.videos.length}</span></a>`).join('');
+    $('atalhos').innerHTML = D.nichos.map((n) => `<a href="#nicho-${n.id}">${esc(n.nome)}<span>${n.videos.length}</span></a>`).join('');
     const paginas = $('nichos-paginas');
     D.nichos.forEach((n) => {
-      const id = slug(n.nome);
+      const id = n.id;
       const qtd = n.videos.length;
       const pag = document.createElement('div');
       pag.className = 'nicho'; pag.id = 'nicho-' + id;
+      pag.dataset.outro = slug(n.nome);
       pag.innerHTML = `
         <div class="nicho-topo">
           <h3>${esc(n.nome)}</h3>
-          <span class="nicho-qtd">${qtd} ${qtd === 1 ? 'vídeo' : 'vídeos'}</span>
-          ${qtd < 3 ? '<span class="nicho-aviso">mínimo 3 vídeos: com menos, tire o nicho</span>' : ''}
+          <span class="nicho-qtd">${esc(t('nichos.qtd', qtd))}</span>
+          ${qtd < 3 ? `<span class="nicho-aviso">${esc(t('nichos.minimo'))}</span>` : ''}
           <div class="setas">
-            <button class="seta" type="button" aria-label="Vídeos anteriores de ${esc(n.nome)}">${ICONE.esq}</button>
-            <button class="seta" type="button" aria-label="Próximos vídeos de ${esc(n.nome)}">${ICONE.dir}</button>
+            <button class="seta" type="button" aria-label="${esc(t('nichos.antes', n.nome))}">${ICONE.esq}</button>
+            <button class="seta" type="button" aria-label="${esc(t('nichos.depois', n.nome))}">${ICONE.dir}</button>
           </div>
         </div>
         <div class="trilho"></div>`;
@@ -750,13 +893,13 @@
     // 5. O que as marcas falam (nunca inventar depoimento)
     $('elogios').innerHTML = D.elogios.slice(0, 3).map((e) => e.texto
       ? `<figure class="elogio" style="margin:0"><blockquote>“${esc(e.texto)}”</blockquote><cite>${esc(e.marca)}<span>${esc(e.detalhe)}</span></cite></figure>`
-      : `<figure class="elogio elogio-vazio" style="margin:0">${lacuna('texto', 'Cole aqui a frase ou o print real da marca', '')}<cite>${esc(e.marca || 'Nome da marca')}<span>${esc(e.detalhe || 'Contexto: qual vídeo, qual campanha')}</span></cite></figure>`).join('');
+      : `<figure class="elogio elogio-vazio" style="margin:0">${lacuna('texto', t('elogio.dica'), '')}<cite>${esc(e.marca || t('elogio.marca'))}<span>${esc(e.detalhe || t('elogio.detalhe'))}</span></cite></figure>`).join('');
     $('atendidas').innerHTML = D.marcas.map((m) => `<li>${esc(typeof m === 'object' ? m.nome : m)}</li>`).join('');
 
     // 6. Contato
     const principal = $('contato-principal');
     principal.href = linkContato;
-    principal.innerHTML = zap ? `${ICONE.zap} Chamar no WhatsApp` : `${ICONE.mail} Mandar e-mail`;
+    principal.innerHTML = zap ? `${ICONE.zap} ${t('contato.whats')}` : `${ICONE.mail} ${t('contato.email')}`;
     const btnInsta = $('contato-insta');
     if (insta) { btnInsta.href = `https://instagram.com/${encodeURIComponent(insta)}`; btnInsta.innerHTML = `${ICONE.insta} @${esc(insta)}`; }
     else btnInsta.remove();
@@ -764,13 +907,13 @@
     const zapFixo = $('zap');
     zapFixo.href = linkContato;
     zapFixo.innerHTML = zap ? ICONE.zap : ICONE.mail;
-    zapFixo.setAttribute('aria-label', zap ? 'Chamar no WhatsApp' : 'Mandar e-mail');
+    zapFixo.setAttribute('aria-label', zap ? t('contato.whats') : t('contato.email'));
 
     if (D.formspree) montarFormulario(D.formspree, linkContato, zap);
 
     $('duvidas').innerHTML = D.duvidas.map((d) => `<div class="duvida"><h3>${esc(d.pergunta)}</h3>${d.resposta
       ? `<p>${esc(d.resposta)}</p>`
-      : lacuna('texto', 'Escreva aqui a sua regra pra essa dúvida', '', 'lacuna-texto')}</div>`).join('');
+      : lacuna('texto', t('duvida.dica'), '', 'lacuna-texto')}</div>`).join('');
 
     $('rodape-nome').innerHTML = `${esc(D.nome)}<span style="color:var(--roxo)">.</span>`;
 
@@ -792,9 +935,15 @@
     // Link com ?c=nicho: rola até a página daquele nicho
     const c = slug(new URLSearchParams(location.search).get('c'));
     if (c) {
-      const alvo = document.getElementById('nicho-' + c) || [...document.querySelectorAll('.nicho')].find((el) => el.id.startsWith('nicho-' + c));
+      const alvo = document.getElementById('nicho-' + c) || document.querySelector(`.nicho[data-outro="${c}"]`) || [...document.querySelectorAll('.nicho')].find((el) => el.id.startsWith('nicho-' + c));
       if (alvo) setTimeout(() => alvo.scrollIntoView({ behavior: semMovimento ? 'auto' : 'smooth', block: 'start' }), 300);
     }
+
+    // Depois de trocar o idioma, volta pro mesmo ponto da página
+    try {
+      const r = sessionStorage.getItem('rolagem');
+      if (r) { sessionStorage.removeItem('rolagem'); requestAnimationFrame(() => window.scrollTo({ top: Number(r), behavior: 'instant' })); }
+    } catch (e) { /* tudo bem */ }
 
     // Lista do que ainda falta (aparece no console do navegador)
     setTimeout(() => { if (faltando.length) console.info('Ainda falta colocar:\n' + [...new Set(faltando)].join('\n')); }, 1500);
@@ -804,21 +953,21 @@
     const caixa = $('formulario');
     caixa.innerHTML = `
       <div class="form-caixa">
-        <h3>Pedir orçamento</h3>
-        <p>Cinco respostas rápidas e eu te chamo.</p>
+        <h3>${t('form.titulo')}</h3>
+        <p>${t('form.sub')}</p>
         <form id="form-orcamento" novalidate>
           <div class="campos">
-            <label class="campo">Seu nome<input name="nome" required autocomplete="name"></label>
-            <label class="campo">Empresa<input name="empresa" required autocomplete="organization"></label>
-            <label class="campo">Produto<input name="produto" required></label>
-            <label class="campo">Prazo<input name="prazo" required placeholder="Ex.: até 20/12"></label>
+            <label class="campo">${t('form.nome')}<input name="nome" required autocomplete="name"></label>
+            <label class="campo">${t('form.empresa')}<input name="empresa" required autocomplete="organization"></label>
+            <label class="campo">${t('form.produto')}<input name="produto" required></label>
+            <label class="campo">${t('form.prazo')}<input name="prazo" required placeholder="${t('form.prazoEx')}"></label>
             <label class="campo inteiro">WhatsApp<input name="whatsapp" required type="tel" autocomplete="tel" placeholder="(00) 00000-0000"></label>
           </div>
           <div class="gotcha" aria-hidden="true"><label>Não preencha<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
-          <button class="btn btn-preto" type="submit">Enviar pedido</button>
+          <button class="btn btn-preto" type="submit">${t('form.enviar')}</button>
           <div class="form-erro" id="form-erro" hidden>
-            Não consegui enviar agora. Me chama direto:<br>
-            <a class="btn btn-borda" href="${esc(linkContato)}" target="_blank" rel="noopener">${zap ? ICONE.zap + ' Chamar no WhatsApp' : ICONE.mail + ' Mandar e-mail'}</a>
+            ${t('form.erro')}<br>
+            <a class="btn btn-borda" href="${esc(linkContato)}" target="_blank" rel="noopener">${zap ? ICONE.zap + ' ' + t('contato.whats') : ICONE.mail + ' ' + t('contato.email')}</a>
           </div>
         </form>
       </div>`;
@@ -827,13 +976,13 @@
       e.preventDefault();
       if (!form.reportValidity()) return;
       const botao = form.querySelector('button[type="submit"]');
-      botao.disabled = true; botao.textContent = 'Enviando…';
+      botao.disabled = true; botao.textContent = t('form.enviando');
       try {
         const r = await fetch(endereco, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
         if (!r.ok) throw new Error('erro');
-        form.parentElement.innerHTML = '<p class="form-ok">Recebi! Te chamo em breve.</p>';
+        form.parentElement.innerHTML = `<p class="form-ok">${t('form.ok')}</p>`;
       } catch (err) {
-        botao.disabled = false; botao.textContent = 'Enviar pedido';
+        botao.disabled = false; botao.textContent = t('form.enviar');
         $('form-erro').hidden = false;
       }
     });
@@ -971,7 +1120,60 @@
       { pergunta: 'Por quanto tempo?', resposta: 'O uso padrão é de 3 meses em anúncio. Dá pra renovar ou contratar um período maior.' },
       { pergunta: 'Tem exclusividade?', resposta: 'Não é padrão. Se a marca quiser, combinamos exclusividade de nicho por um período, com valor à parte.' },
       { pergunta: 'Qual o prazo?', resposta: 'Entrego em até 15 dias.' }
-    ]
+    ],
+
+    // VERSÃO EM INGLÊS: o que aparece quando a marca aperta EN no menu.
+    // Se algum campo ficar vazio, o site mostra a versão em português no lugar.
+    ingles: {
+      // Nichos em uma linha, para a frase "UGC creator for ..."
+      nichosResumo: 'beauty, hair, home & decor, food, fitness, supplements, tech, travel and finance',
+
+      // Frase curta do que você faz pela marca
+      frase: 'I create content focused on conversion and sales.',
+
+      // Os 3 números da capa
+      provas: [
+        { numero: '1000+', texto: 'videos recorded' },
+        { numero: '300+', texto: 'brands served' },
+        { numero: '15 days', texto: 'delivery time' }
+      ],
+
+      // Texto do Sobre mim
+      sobreTexto: [
+        "I'm Lara, a UGC creator based in Caraguatatuba, on the north coast of São Paulo, Brazil. I've recorded over 1,000 videos for more than 300 brands, always with the same goal: getting the brand's customer to stop scrolling, trust and buy."
+      ],
+
+      // Seus 3 diferenciais
+      diferenciais: [
+        "I study the pain points of the brand's customer before creating.",
+        'My own script, approved by the brand before recording.',
+        'Ad-ready editing, with a strong hook and clean audio.'
+      ],
+
+      // Nome de cada nicho em inglês: 'nome em português': 'nome em inglês'
+      nichos: {
+        'Casa e decoração': 'Home & decor',
+        'Tech': 'Tech',
+        'Viagem': 'Travel',
+        'Comida': 'Food',
+        'Beleza': 'Beauty',
+        'Suplementos': 'Supplements',
+        'Moda': 'Fashion'
+      },
+
+      // Palavras dos destaques (nicho e formato): 'português': 'inglês'
+      termos: {
+        'finanças': 'finance', 'beleza': 'beauty', 'nativo': 'native'
+      },
+
+      // As 4 dúvidas do contato
+      duvidas: [
+        { pergunta: 'Where can I use the content?', resposta: "On the brand's social media, website and paid ads. The channels are agreed on in the quote." },
+        { pergunta: 'For how long?', resposta: 'Standard usage is 3 months in ads. It can be renewed or extended.' },
+        { pergunta: 'Is there exclusivity?', resposta: 'Not by default. If the brand wants it, we can agree on niche exclusivity for a period, priced separately.' },
+        { pergunta: "What's the turnaround?", resposta: 'I deliver within 15 days.' }
+      ]
+    }
   };
 
   montar(DADOS);
