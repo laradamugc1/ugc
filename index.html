@@ -508,11 +508,12 @@
 
   // Vídeo do YouTube: mostra a capa e toca no player grande ao clicar
   function videoYoutube(box, v, id, auto, selo) {
-    const reserva = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    // Capa: a do DADOS; se não abrir, a antiga da pasta midia/capas; por último, a do YouTube
+    const opcoes = [v.capa, `midia/capas/${id}.webp`, `https://i.ytimg.com/vi/${id}/oar2.jpg`, `https://i.ytimg.com/vi/${id}/hqdefault.jpg`].filter(Boolean);
     const img = new Image();
     img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
-    img.onerror = () => { if (!img.src.endsWith(reserva)) img.src = reserva; };
-    img.src = v.capa || reserva;
+    img.onerror = () => { opcoes.shift(); if (opcoes.length) img.src = opcoes[0]; };
+    img.src = opcoes[0];
     box.classList.add('yt');
     box.append(img);
     box.insertAdjacentHTML('beforeend', `<span class="vid-play" aria-hidden="true">${ICONE.play}</span>`);
@@ -898,12 +899,12 @@
 
     // Seus 3 MELHORES vídeos (não os mais recentes). O primeiro é o mais forte.
     // titulo: nome curto · nicho · formato: ADS, review, unboxing, tutorial ou nativo
-    // video: link do YouTube (Shorts) ou arquivo .mp4 · capa: imagem que aparece antes de tocar (opcional)
+    // video: link do YouTube (Shorts) ou arquivo .mp4 · capa: imagem que aparece antes de tocar (padrão: midia/capas-hd, em 1080x1920)
     // res: resultado real do vídeo (ex.: '116 vendas'). Sem resultado, deixe ''.
     destaques: [
-      { titulo: 'InfinitePay', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/5wf8Fv2CTa4', capa: 'midia/capas/5wf8Fv2CTa4.webp', res: '+100M views' },
-      { titulo: 'Méliuz', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/wesTfq67X9o', capa: 'midia/capas/wesTfq67X9o.webp', res: '+30M views' },
-      { titulo: "L'Oréal", nicho: 'beleza', formato: 'review', video: 'https://youtube.com/shorts/6kvtFKsPQPw', capa: 'midia/capas/6kvtFKsPQPw.webp', res: '' }
+      { titulo: 'InfinitePay', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/5wf8Fv2CTa4', capa: 'midia/capas-hd/5wf8Fv2CTa4.jpg', res: '+100M views' },
+      { titulo: 'Méliuz', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/wesTfq67X9o', capa: 'midia/capas-hd/wesTfq67X9o.jpg', res: '+30M views' },
+      { titulo: "L'Oréal", nicho: 'beleza', formato: 'review', video: 'https://youtube.com/shorts/6kvtFKsPQPw', capa: 'midia/capas-hd/6kvtFKsPQPw.jpg', res: '' }
     ],
 
     // Nichos: cada um com nome e lista de vídeos (link do YouTube ou arquivo .mp4).
@@ -911,44 +912,44 @@
     // Ex.: seu-site/?c=casa-e-decoracao  ·  Mínimo 3 vídeos por nicho.
     nichos: [
       { nome: 'Casa e decoração', videos: [
-        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/Imt3HZDlCXU', capa: 'midia/capas/Imt3HZDlCXU.webp' },
-        { titulo: 'Coza', formato: '', video: 'https://youtube.com/shorts/1Fm5v3bSdKM', capa: 'midia/capas/1Fm5v3bSdKM.webp' },
-        { titulo: 'Coala', formato: '', video: 'https://youtube.com/shorts/plSEfBiygVw', capa: 'midia/capas/plSEfBiygVw.webp' },
-        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/R-y96AP_NLo', capa: 'midia/capas/R-y96AP_NLo.webp' },
-        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/mEc4A2oJ0_w', capa: 'midia/capas/mEc4A2oJ0_w.webp' },
-        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/JwblS_1IReM', capa: 'midia/capas/JwblS_1IReM.webp' },
-        { titulo: 'Vinagreen', formato: '', video: 'https://youtube.com/shorts/8T_dTUk5oX4', capa: 'midia/capas/8T_dTUk5oX4.webp' },
+        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/Imt3HZDlCXU', capa: 'midia/capas-hd/Imt3HZDlCXU.jpg' },
+        { titulo: 'Coza', formato: '', video: 'https://youtube.com/shorts/1Fm5v3bSdKM', capa: 'midia/capas-hd/1Fm5v3bSdKM.jpg' },
+        { titulo: 'Coala', formato: '', video: 'https://youtube.com/shorts/plSEfBiygVw', capa: 'midia/capas-hd/plSEfBiygVw.jpg' },
+        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/R-y96AP_NLo', capa: 'midia/capas-hd/R-y96AP_NLo.jpg' },
+        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/mEc4A2oJ0_w', capa: 'midia/capas-hd/mEc4A2oJ0_w.jpg' },
+        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/JwblS_1IReM', capa: 'midia/capas-hd/JwblS_1IReM.jpg' },
+        { titulo: 'Vinagreen', formato: '', video: 'https://youtube.com/shorts/8T_dTUk5oX4', capa: 'midia/capas-hd/8T_dTUk5oX4.jpg' },
       ]},
       { nome: 'Tech', videos: [
-        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/2NMavMHi4jM', capa: 'midia/capas/2NMavMHi4jM.webp' },
-        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/Q_n4uwkxiDo', capa: 'midia/capas/Q_n4uwkxiDo.webp' },
-        { titulo: 'Voy Saúde', formato: '', video: 'https://youtube.com/shorts/sIqDyvDsaZA', capa: 'midia/capas/sIqDyvDsaZA.webp' },
+        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/2NMavMHi4jM', capa: 'midia/capas-hd/2NMavMHi4jM.jpg' },
+        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/Q_n4uwkxiDo', capa: 'midia/capas-hd/Q_n4uwkxiDo.jpg' },
+        { titulo: 'Voy Saúde', formato: '', video: 'https://youtube.com/shorts/sIqDyvDsaZA', capa: 'midia/capas-hd/sIqDyvDsaZA.jpg' },
       ]},
       { nome: 'Viagem', videos: [
-        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/7TzuVW8847A', capa: 'midia/capas/7TzuVW8847A.webp' },
-        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/DzIWctdbjgg', capa: 'midia/capas/DzIWctdbjgg.webp' },
+        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/7TzuVW8847A', capa: 'midia/capas-hd/7TzuVW8847A.jpg' },
+        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/DzIWctdbjgg', capa: 'midia/capas-hd/DzIWctdbjgg.jpg' },
       ]},
       { nome: 'Comida', videos: [
-        { titulo: 'Wine', formato: '', video: 'https://youtube.com/shorts/wW7381aUhwk', capa: 'midia/capas/wW7381aUhwk.webp' },
-        { titulo: 'Ateliê', formato: '', video: 'https://youtube.com/shorts/0FhBNV71z9A', capa: 'midia/capas/0FhBNV71z9A.webp' },
-        { titulo: 'Rap10', formato: '', video: 'https://youtube.com/shorts/orhbzi_XYiA', capa: 'midia/capas/orhbzi_XYiA.webp' },
-        { titulo: 'Cafeza', formato: '', video: 'https://youtube.com/shorts/R-PC_tGXdFk', capa: 'midia/capas/R-PC_tGXdFk.webp' },
-        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/bUf0ItCQdUU', capa: 'midia/capas/bUf0ItCQdUU.webp' },
-        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/vFmYLAliwIk', capa: 'midia/capas/vFmYLAliwIk.webp' },
-        { titulo: 'Smoo Sorvete', formato: '', video: 'https://youtube.com/shorts/AXzcHi_Qq_Y', capa: 'midia/capas/AXzcHi_Qq_Y.webp' },
+        { titulo: 'Wine', formato: '', video: 'https://youtube.com/shorts/wW7381aUhwk', capa: 'midia/capas-hd/wW7381aUhwk.jpg' },
+        { titulo: 'Ateliê', formato: '', video: 'https://youtube.com/shorts/0FhBNV71z9A', capa: 'midia/capas-hd/0FhBNV71z9A.jpg' },
+        { titulo: 'Rap10', formato: '', video: 'https://youtube.com/shorts/orhbzi_XYiA', capa: 'midia/capas-hd/orhbzi_XYiA.jpg' },
+        { titulo: 'Cafeza', formato: '', video: 'https://youtube.com/shorts/R-PC_tGXdFk', capa: 'midia/capas-hd/R-PC_tGXdFk.jpg' },
+        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/bUf0ItCQdUU', capa: 'midia/capas-hd/bUf0ItCQdUU.jpg' },
+        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/vFmYLAliwIk', capa: 'midia/capas-hd/vFmYLAliwIk.jpg' },
+        { titulo: 'Smoo Sorvete', formato: '', video: 'https://youtube.com/shorts/AXzcHi_Qq_Y', capa: 'midia/capas-hd/AXzcHi_Qq_Y.jpg' },
       ]},
       { nome: 'Beleza', videos: [
-        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/XwhHAl2LJ6k', capa: 'midia/capas/XwhHAl2LJ6k.webp' },
-        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/cDRldAKYyKU', capa: 'midia/capas/cDRldAKYyKU.webp' },
-        { titulo: 'Cand Óculos', formato: '', video: 'https://youtube.com/shorts/JPz1wMt_R4I', capa: 'midia/capas/JPz1wMt_R4I.webp' },
-        { titulo: 'Quintal', formato: '', video: 'https://youtube.com/shorts/U_T_I-vcM7k', capa: 'midia/capas/U_T_I-vcM7k.webp' },
-        { titulo: 'Bem Me Fiz', formato: '', video: 'https://youtube.com/shorts/P3UrVHbwI9g', capa: 'midia/capas/P3UrVHbwI9g.webp' },
+        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/XwhHAl2LJ6k', capa: 'midia/capas-hd/XwhHAl2LJ6k.jpg' },
+        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/cDRldAKYyKU', capa: 'midia/capas-hd/cDRldAKYyKU.jpg' },
+        { titulo: 'Cand Óculos', formato: '', video: 'https://youtube.com/shorts/JPz1wMt_R4I', capa: 'midia/capas-hd/JPz1wMt_R4I.jpg' },
+        { titulo: 'Quintal', formato: '', video: 'https://youtube.com/shorts/U_T_I-vcM7k', capa: 'midia/capas-hd/U_T_I-vcM7k.jpg' },
+        { titulo: 'Bem Me Fiz', formato: '', video: 'https://youtube.com/shorts/P3UrVHbwI9g', capa: 'midia/capas-hd/P3UrVHbwI9g.jpg' },
       ]},
       { nome: 'Suplementos', videos: [
-        { titulo: 'Untamed', formato: '', video: 'https://youtube.com/shorts/lnrpiDm9TjE', capa: 'midia/capas/lnrpiDm9TjE.webp' },
+        { titulo: 'Untamed', formato: '', video: 'https://youtube.com/shorts/lnrpiDm9TjE', capa: 'midia/capas-hd/lnrpiDm9TjE.jpg' },
       ]},
       { nome: 'Moda', videos: [
-        { titulo: 'Midas Time', formato: '', video: 'https://youtube.com/shorts/wZgUdGFouNA', capa: 'midia/capas/wZgUdGFouNA.webp' },
+        { titulo: 'Midas Time', formato: '', video: 'https://youtube.com/shorts/wZgUdGFouNA', capa: 'midia/capas-hd/wZgUdGFouNA.jpg' },
       ]}
     ],
 
