@@ -119,6 +119,7 @@
     .foto { aspect-ratio: 4 / 5; border-radius: var(--r-foto); overflow: hidden; background: var(--cinza); }
     .foto img { width: 100%; height: 100%; object-fit: cover; }
     .capa-foto .foto { max-height: 640px; margin-left: auto; }
+    .capa-foto .foto img { object-position: 50% 85%; }
 
     /* Selo Brilho girando */
     .selo-brilho {
@@ -829,8 +830,7 @@
 
     // Texto do Sobre mim, um parágrafo por linha. '' vira lacuna com dica.
     sobreTexto: [
-      'Sou a Lara, UGC creator em Caraguatatuba, no litoral norte de São Paulo. Já gravei mais de 1000 vídeos para mais de 300 marcas, sempre com o mesmo foco: fazer o cliente da marca parar a rolagem, confiar e comprar.',
-      '' // conte sua rotina e por que as marcas do seu nicho combinam com você
+      'Sou a Lara, UGC creator em Caraguatatuba, no litoral norte de São Paulo. Já gravei mais de 1000 vídeos para mais de 300 marcas, sempre com o mesmo foco: fazer o cliente da marca parar a rolagem, confiar e comprar.'
     ],
 
     // Seus 3 diferenciais
@@ -854,85 +854,45 @@
     // O link ?c=nome-do-nicho (sem acento, com hífen) abre direto na página do nicho.
     // Ex.: seu-site/?c=casa-e-decoracao  ·  Mínimo 3 vídeos por nicho.
     nichos: [
-      { nome: 'Beleza', videos: [
-        { titulo: 'Noma', formato: '', video: 'midia/nichos/beleza/noma.mp4', capa: 'midia/capas/TbRE2_mezCg.webp' },
-        { titulo: "L'Oréal", formato: '', video: 'midia/nichos/beleza/loreal.mp4', capa: 'midia/capas/6kvtFKsPQPw.webp' },
-        { titulo: 'Inglot', formato: '', video: 'midia/nichos/beleza/inglot.mp4', capa: 'midia/capas/0g1pFDhxi-4.webp' },
-        { titulo: 'Rituaria', formato: '', video: 'midia/nichos/beleza/rituaria-1.mp4', capa: 'midia/capas/Yt_UjtmiMgg.webp' },
-        { titulo: 'Rituaria', formato: '', video: 'midia/nichos/beleza/rituaria-2.mp4', capa: 'midia/capas/CzO13_qS6Fs.webp' },
-        { titulo: 'Musquee', formato: '', video: 'midia/nichos/beleza/musquee.mp4', capa: 'midia/capas/ctKWcVRF35k.webp' },
-        { titulo: 'Quintal', formato: '', video: 'midia/nichos/beleza/quintal-1.mp4', capa: 'midia/capas/U_T_I-vcM7k.webp' },
-        { titulo: 'Quintal', formato: '', video: 'midia/nichos/beleza/quintal-2.mp4', capa: 'midia/capas/aTe89tMdv28.webp' },
-        { titulo: 'Quintal', formato: '', video: 'midia/nichos/beleza/quintal-3.mp4', capa: 'midia/capas/UCgbmlmT618.webp' },
-        { titulo: 'Amobeleza', formato: '', video: 'midia/nichos/beleza/amobeleza.mp4', capa: 'midia/capas/V5gvw_l08go.webp' },
-        { titulo: 'Belleton', formato: '', video: 'midia/nichos/beleza/belleton.mp4', capa: 'midia/capas/_d2dByXfvIw.webp' },
-        { titulo: 'Rarissima', formato: '', video: 'midia/nichos/beleza/rarissima.mp4', capa: 'midia/capas/dj9LD5x8MWI.webp' },
-        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-1.mp4', capa: 'midia/capas/XwhHAl2LJ6k.webp' },
-        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-2.mp4', capa: 'midia/capas/cDRldAKYyKU.webp' },
-        { titulo: 'Bem Me Fiz', formato: '', video: 'midia/nichos/beleza/bem-me-fiz.mp4', capa: 'midia/capas/P3UrVHbwI9g.webp' }
-      ]},
-      { nome: 'Cabelo', videos: [
-        // coloque aqui os vídeos de cabelo, ex.:
-        // { titulo: 'Marca', formato: 'review', video: 'midia/nichos/cabelo/marca.mp4', capa: '' },
-      ]},
       { nome: 'Casa e decoração', videos: [
-        { titulo: 'Coza', formato: '', video: 'midia/nichos/casa-e-decoracao/coza-1.mp4', capa: 'midia/capas/nbq1HzdlPJE.webp' },
-        { titulo: 'Coza', formato: '', video: 'midia/nichos/casa-e-decoracao/coza-2.mp4', capa: 'midia/capas/1Fm5v3bSdKM.webp' },
-        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-1.mp4', capa: 'midia/capas/Imt3HZDlCXU.webp' },
-        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-2.mp4', capa: 'midia/capas/JwblS_1IReM.webp' },
-        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-3.mp4', capa: 'midia/capas/RPNeR2ANyrM.webp' },
-        { titulo: 'Coala', formato: '', video: 'midia/nichos/casa-e-decoracao/coala-1.mp4', capa: 'midia/capas/plSEfBiygVw.webp' },
-        { titulo: 'Coala', formato: '', video: 'midia/nichos/casa-e-decoracao/coala-2.mp4', capa: 'midia/capas/tClA-xjxP68.webp' },
-        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-1.mp4', capa: 'midia/capas/R-y96AP_NLo.webp' },
-        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-2.mp4', capa: 'midia/capas/mEc4A2oJ0_w.webp' },
-        { titulo: 'Vinagreen', formato: '', video: 'midia/nichos/casa-e-decoracao/vinagreen.mp4', capa: 'midia/capas/8T_dTUk5oX4.webp' },
-        { titulo: 'Offertus', formato: '', video: 'midia/nichos/casa-e-decoracao/offertus.mp4', capa: 'midia/capas/ucf6vv64SNY.webp' },
-        { titulo: 'Velds', formato: '', video: 'midia/nichos/casa-e-decoracao/velds-1.mp4', capa: 'midia/capas/TZK3XeajRyI.webp' },
-        { titulo: 'Velds', formato: '', video: 'midia/nichos/casa-e-decoracao/velds-2.mp4', capa: 'midia/capas/i9dHLO0VlFk.webp' },
-        { titulo: 'Lumai', formato: '', video: 'midia/nichos/casa-e-decoracao/lumai-1.mp4', capa: 'midia/capas/2y9Xe6Q5eMc.webp' },
-        { titulo: 'Lumai', formato: '', video: 'midia/nichos/casa-e-decoracao/lumai-2.mp4', capa: 'midia/capas/0Mkvi_n-bFU.webp' }
-      ]},
-      { nome: 'Comida', videos: [
-        { titulo: 'Ateliê', formato: '', video: 'midia/nichos/comida/atelie-1.mp4', capa: 'midia/capas/0FhBNV71z9A.webp' },
-        { titulo: 'Ateliê', formato: '', video: 'midia/nichos/comida/atelie-2.mp4', capa: 'midia/capas/XmjA7cpCPfQ.webp' },
-        { titulo: 'Rap10', formato: '', video: 'midia/nichos/comida/rap10-1.mp4', capa: 'midia/capas/orhbzi_XYiA.webp' },
-        { titulo: 'Rap10', formato: '', video: 'midia/nichos/comida/rap10-2.mp4', capa: 'midia/capas/It7GiFzsOe0.webp' },
-        { titulo: 'Copacol', formato: '', video: 'midia/nichos/comida/copacol.mp4', capa: 'midia/capas/Kq93tU1dYuA.webp' },
-        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-1.mp4', capa: 'midia/capas/QgCK-EJKTm0.webp' },
-        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-2.mp4', capa: 'midia/capas/bUf0ItCQdUU.webp' },
-        { titulo: 'Cafeza', formato: '', video: 'midia/nichos/comida/cafeza.mp4', capa: 'midia/capas/R-PC_tGXdFk.webp' },
-        { titulo: 'Smoo Sorvete', formato: '', video: 'midia/nichos/comida/smoo-sorvete.mp4', capa: 'midia/capas/AXzcHi_Qq_Y.webp' }
-      ]},
-      { nome: 'Fitness', videos: [
-        { titulo: 'Squadz', formato: '', video: 'midia/nichos/fitness/squadz.mp4', capa: 'midia/capas/vbQW-1VEjPk.webp' },
-        { titulo: 'Voy', formato: '', video: 'midia/nichos/fitness/voy.mp4', capa: 'midia/capas/ZVNvzvdz4Ow.webp' }
-      ]},
-      { nome: 'Suplementos', videos: [
-        { titulo: 'Pharmapele', formato: '', video: 'midia/nichos/suplementos/pharmapele-1.mp4', capa: 'midia/capas/_6sCm4K8DRE.webp' },
-        { titulo: 'Pharmapele', formato: '', video: 'midia/nichos/suplementos/pharmapele-2.mp4', capa: 'midia/capas/Eul1uuQhU7g.webp' },
-        { titulo: 'Pharmapele', formato: '', video: 'midia/nichos/suplementos/pharmapele-3.mp4', capa: 'midia/capas/K31BzOy3qt0.webp' }
+        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-1.mp4', capa: 'midia/capas/Imt3HZDlCXU.webp' }, // youtube.com/shorts/Imt3HZDlCXU
+        { titulo: 'Coza', formato: '', video: 'midia/nichos/casa-e-decoracao/coza.mp4', capa: 'midia/capas/1Fm5v3bSdKM.webp' }, // youtube.com/shorts/1Fm5v3bSdKM
+        { titulo: 'Coala', formato: '', video: 'midia/nichos/casa-e-decoracao/coala.mp4', capa: 'midia/capas/plSEfBiygVw.webp' }, // youtube.com/shorts/plSEfBiygVw
+        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-1.mp4', capa: 'midia/capas/R-y96AP_NLo.webp' }, // youtube.com/shorts/R-y96AP_NLo
+        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-2.mp4', capa: 'midia/capas/mEc4A2oJ0_w.webp' }, // youtube.com/shorts/mEc4A2oJ0_w
+        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-2.mp4', capa: 'midia/capas/JwblS_1IReM.webp' }, // youtube.com/shorts/JwblS_1IReM
+        { titulo: 'Vinagreen', formato: '', video: 'midia/nichos/casa-e-decoracao/vinagreen.mp4', capa: 'midia/capas/8T_dTUk5oX4.webp' }, // youtube.com/shorts/8T_dTUk5oX4
       ]},
       { nome: 'Tech', videos: [
-        { titulo: 'Vero', formato: '', video: 'midia/nichos/tech/vero.mp4', capa: 'midia/capas/8QRM5LPK5M8.webp' },
-        { titulo: 'Focus', formato: '', video: 'midia/nichos/tech/focus.mp4', capa: 'midia/capas/GvLjL_Ru19U.webp' },
-        { titulo: 'Logitech', formato: '', video: 'midia/nichos/tech/logitech-1.mp4', capa: 'midia/capas/sspAuh3TFqw.webp' },
-        { titulo: 'Logitech', formato: '', video: 'midia/nichos/tech/logitech-2.mp4', capa: 'midia/capas/xyaWdRi9pK4.webp' },
-        { titulo: 'Reclame Aqui', formato: '', video: 'midia/nichos/tech/reclame-aqui.mp4', capa: 'midia/capas/DxiroerLBGw.webp' },
-        { titulo: 'Gamma', formato: '', video: 'midia/nichos/tech/gamma.mp4', capa: 'midia/capas/nZQoMA114MA.webp' }
+        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/tech/bv-1.mp4', capa: 'midia/capas/2NMavMHi4jM.webp' }, // youtube.com/shorts/2NMavMHi4jM
+        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/tech/bv-2.mp4', capa: 'midia/capas/Q_n4uwkxiDo.webp' }, // youtube.com/shorts/Q_n4uwkxiDo
+        { titulo: 'Voy Saúde', formato: '', video: 'midia/nichos/tech/voy-saude.mp4', capa: 'midia/capas/sIqDyvDsaZA.webp' }, // youtube.com/shorts/sIqDyvDsaZA
       ]},
       { nome: 'Viagem', videos: [
-        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-1.mp4', capa: 'midia/capas/7TzuVW8847A.webp' },
-        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-2.mp4', capa: 'midia/capas/DzIWctdbjgg.webp' },
-        { titulo: 'Airbnb', formato: '', video: 'midia/nichos/viagem/airbnb-1.mp4', capa: 'midia/capas/s5iwpfzgxbI.webp' },
-        { titulo: 'Airbnb', formato: '', video: 'midia/nichos/viagem/airbnb-2.mp4', capa: 'midia/capas/wUxGOQ3QwFw.webp' },
-        { titulo: 'Decolar', formato: '', video: 'midia/nichos/viagem/decolar.mp4', capa: 'midia/capas/Y8nN7CMb73U.webp' }
+        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-1.mp4', capa: 'midia/capas/7TzuVW8847A.webp' }, // youtube.com/shorts/7TzuVW8847A
+        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-2.mp4', capa: 'midia/capas/DzIWctdbjgg.webp' }, // youtube.com/shorts/DzIWctdbjgg
       ]},
-      { nome: 'Finanças', videos: [
-        { titulo: 'InfinitePay', formato: '', video: 'midia/nichos/financas/infinitepay.mp4', capa: 'midia/capas/5wf8Fv2CTa4.webp' },
-        { titulo: 'Méliuz', formato: '', video: 'midia/nichos/financas/meliuz-1.mp4', capa: 'midia/capas/wesTfq67X9o.webp' },
-        { titulo: 'Méliuz', formato: '', video: 'midia/nichos/financas/meliuz-2.mp4', capa: 'midia/capas/GPcPWfWmA3A.webp' },
-        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/financas/bv-1.mp4', capa: 'midia/capas/2NMavMHi4jM.webp' },
-        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/financas/bv-2.mp4', capa: 'midia/capas/Q_n4uwkxiDo.webp' }
+      { nome: 'Comida', videos: [
+        { titulo: 'Wine', formato: '', video: 'midia/nichos/comida/wine.mp4', capa: 'midia/capas/wW7381aUhwk.webp' }, // youtube.com/shorts/wW7381aUhwk
+        { titulo: 'Ateliê', formato: '', video: 'midia/nichos/comida/atelie.mp4', capa: 'midia/capas/0FhBNV71z9A.webp' }, // youtube.com/shorts/0FhBNV71z9A
+        { titulo: 'Rap10', formato: '', video: 'midia/nichos/comida/rap10.mp4', capa: 'midia/capas/orhbzi_XYiA.webp' }, // youtube.com/shorts/orhbzi_XYiA
+        { titulo: 'Cafeza', formato: '', video: 'midia/nichos/comida/cafeza.mp4', capa: 'midia/capas/R-PC_tGXdFk.webp' }, // youtube.com/shorts/R-PC_tGXdFk
+        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-1.mp4', capa: 'midia/capas/bUf0ItCQdUU.webp' }, // youtube.com/shorts/bUf0ItCQdUU
+        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-2.mp4', capa: 'midia/capas/vFmYLAliwIk.webp' }, // youtube.com/shorts/vFmYLAliwIk
+        { titulo: 'Smoo Sorvete', formato: '', video: 'midia/nichos/comida/smoo-sorvete.mp4', capa: 'midia/capas/AXzcHi_Qq_Y.webp' }, // youtube.com/shorts/AXzcHi_Qq_Y
+      ]},
+      { nome: 'Beleza', videos: [
+        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-1.mp4', capa: 'midia/capas/XwhHAl2LJ6k.webp' }, // youtube.com/shorts/XwhHAl2LJ6k
+        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-2.mp4', capa: 'midia/capas/cDRldAKYyKU.webp' }, // youtube.com/shorts/cDRldAKYyKU
+        { titulo: 'Cand Óculos', formato: '', video: 'midia/nichos/beleza/cand-oculos.mp4', capa: 'midia/capas/JPz1wMt_R4I.webp' }, // youtube.com/shorts/JPz1wMt_R4I
+        { titulo: 'Quintal', formato: '', video: 'midia/nichos/beleza/quintal.mp4', capa: 'midia/capas/U_T_I-vcM7k.webp' }, // youtube.com/shorts/U_T_I-vcM7k
+        { titulo: 'Bem Me Fiz', formato: '', video: 'midia/nichos/beleza/bem-me-fiz.mp4', capa: 'midia/capas/P3UrVHbwI9g.webp' }, // youtube.com/shorts/P3UrVHbwI9g
+      ]},
+      { nome: 'Suplementos', videos: [
+        { titulo: 'Untamed', formato: '', video: 'midia/nichos/suplementos/untamed.mp4', capa: 'midia/capas/lnrpiDm9TjE.webp' }, // youtube.com/shorts/lnrpiDm9TjE
+      ]},
+      { nome: 'Moda', videos: [
+        { titulo: 'Midas Time', formato: '', video: 'midia/nichos/moda/midas-time.mp4', capa: 'midia/capas/wZgUdGFouNA.webp' }, // youtube.com/shorts/wZgUdGFouNA
       ]}
     ],
 
@@ -950,9 +910,9 @@
 
     // As 4 dúvidas do contato. resposta '' vira lacuna com dica.
     duvidas: [
-      { pergunta: 'Onde posso usar o conteúdo?', resposta: '' }, // ex.: anúncios pagos, redes sociais e site da marca
-      { pergunta: 'Por quanto tempo?', resposta: '' },            // ex.: 3 meses de uso em anúncio, renovável
-      { pergunta: 'Tem exclusividade?', resposta: '' },           // ex.: exclusividade de nicho sob consulta
+      { pergunta: 'Onde posso usar o conteúdo?', resposta: 'Nas redes sociais, no site e em anúncios pagos da marca. Os canais ficam combinados no orçamento.' },
+      { pergunta: 'Por quanto tempo?', resposta: 'O uso padrão é de 3 meses em anúncio. Dá pra renovar ou contratar um período maior.' },
+      { pergunta: 'Tem exclusividade?', resposta: 'Não é padrão. Se a marca quiser, combinamos exclusividade de nicho por um período, com valor à parte.' },
       { pergunta: 'Qual o prazo?', resposta: 'Entrego em até 15 dias.' }
     ]
   };
