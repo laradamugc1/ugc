@@ -251,6 +251,9 @@
     /* Player grande */
     .player { position: fixed; inset: 0; z-index: 100; background: rgba(20,20,20,.86); display: grid; place-items: center; padding: 24px; }
     .player[hidden] { display: none; }
+    .vid.yt img, .vid .yt-fundo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
+    .vid .yt-fundo { pointer-events: none; background: #000; }
+    .player .player-yt { height: min(86vh, 860px); max-width: 92vw; aspect-ratio: 9 / 16; border: 0; border-radius: var(--r-video); background: #000; }
     .player video { height: min(86vh, 860px); max-width: 92vw; aspect-ratio: 9 / 16; border-radius: var(--r-video); background: #000; object-fit: contain; }
     .player-x { position: absolute; top: 18px; right: 18px; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--branco); color: var(--titulo); display: grid; place-items: center; }
     .player-x svg { width: 18px; height: 18px; }
@@ -486,8 +489,50 @@
     return `<div class="lacuna ${classe || ''}">${ICONE[icone]}<span>${esc(dica)}</span>${caminho ? `<code>${esc(caminho)}</code>` : ''}</div>`;
   }
 
-  // Link de Reels, TikTok, YouTube ou Drive não toca na tag video: só arquivo .mp4
+  // O vídeo pode ser um link do YouTube (Shorts ou normal) ou um arquivo .mp4.
+  // Link de Reels, TikTok ou Drive não toca aqui.
   const ehMp4 = (c) => /\.mp4(\?|#|$)/i.test(c || '') && !/instagram|tiktok|drive\.google|youtu/i.test(c);
+  const idYoutube = (c) => { const m = String(c || '').match(/(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/|live\/)|youtu\.be\/)([\w-]{11})/); return m ? m[1] : ''; };
+  const linkYoutube = (id, extra) => `https://www.youtube-nocookie.com/embed/${id}?` + new URLSearchParams(Object.assign({ playsinline: 1, rel: 0 }, extra));
+  function iframeYoutube(id, extra, classe) {
+    const f = document.createElement('iframe');
+    f.className = classe;
+    f.src = linkYoutube(id, extra);
+    f.title = 'Vídeo do YouTube';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    return f;
+  }
+
+  // Vídeo do YouTube: mostra a capa e toca no player grande ao clicar
+  function videoYoutube(box, v, id, auto, selo) {
+    const reserva = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    const img = new Image();
+    img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
+    img.onerror = () => { if (!img.src.endsWith(reserva)) img.src = reserva; };
+    img.src = v.capa || reserva;
+    box.classList.add('yt');
+    box.append(img);
+    box.insertAdjacentHTML('beforeend', `<span class="vid-play" aria-hidden="true">${ICONE.play}</span>`);
+    selo();
+    box.setAttribute('role', 'button'); box.tabIndex = 0;
+    box.setAttribute('aria-label', 'Assistir com som: ' + (v.titulo || 'vídeo'));
+    box.addEventListener('click', () => abrirPlayer(v));
+    box.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirPlayer(v); } });
+    // O mais forte toca sozinho, sem som, quando aparece na tela
+    if (auto && !semMovimento) {
+      const olho = new IntersectionObserver((itens) => {
+        if (!itens.some((i) => i.isIntersecting)) return;
+        olho.disconnect();
+        const f = iframeYoutube(id, { autoplay: 1, mute: 1, loop: 1, playlist: id, controls: 0, disablekb: 1, modestbranding: 1 }, 'yt-fundo');
+        f.tabIndex = -1; f.setAttribute('aria-hidden', 'true');
+        box.insertBefore(f, img.nextSibling);
+      }, { threshold: 0.4 });
+      olho.observe(box);
+    }
+    return box;
+  }
 
   function foto(alvo, src, alt, dica) {
     const falta = () => { alvo.innerHTML = lacuna('foto', dica, src || 'midia/…jpg'); };
@@ -508,10 +553,12 @@
     const falta = () => {
       box.classList.add('vazio');
       box.removeAttribute('role'); box.removeAttribute('tabindex'); box.removeAttribute('aria-label');
-      const caminho = v.video && !ehMp4(v.video) ? 'Link não toca aqui: troque pelo arquivo .mp4' : (v.video || '');
+      const caminho = v.video && !ehMp4(v.video) ? 'Esse link não toca aqui: use YouTube ou arquivo .mp4' : (v.video || '');
       box.innerHTML = lacuna('video', dica, caminho);
       selo();
     };
+    const yt = idYoutube(v.video);
+    if (yt) return videoYoutube(box, v, yt, auto, selo);
     if (!ehMp4(v.video)) { falta(); return box; }
 
     const vid = document.createElement('video');
@@ -547,9 +594,16 @@
   function abrirPlayer(v) {
     const p = $('player'), pv = p.querySelector('video');
     focoAntes = document.activeElement;
-    pv.src = v.video; pv.muted = false;
+    const yt = idYoutube(v.video);
+    if (yt) {
+      pv.hidden = true;
+      p.append(iframeYoutube(yt, { autoplay: 1 }, 'player-yt'));
+    } else {
+      pv.hidden = false;
+      pv.src = v.video; pv.muted = false;
+      pv.play().catch(() => {});
+    }
     p.hidden = false; document.body.classList.add('travado');
-    pv.play().catch(() => {});
     p.querySelector('.player-x').focus();
     medirVideo(v.titulo);
   }
@@ -557,6 +611,7 @@
     const p = $('player'), pv = p.querySelector('video');
     if (p.hidden) return;
     pv.pause(); pv.removeAttribute('src'); pv.load();
+    p.querySelectorAll('.player-yt').forEach((f) => f.remove());
     p.hidden = true; document.body.classList.remove('travado');
     if (focoAntes) focoAntes.focus();
   }
@@ -842,57 +897,57 @@
 
     // Seus 3 MELHORES vídeos (não os mais recentes). O primeiro é o mais forte.
     // titulo: nome curto · nicho · formato: ADS, review, unboxing, tutorial ou nativo
-    // video: arquivo .mp4 na pasta midia/destaques · capa: imagem que aparece antes de tocar (opcional)
+    // video: link do YouTube (Shorts) ou arquivo .mp4 · capa: imagem que aparece antes de tocar (opcional)
     // res: resultado real do vídeo (ex.: '116 vendas'). Sem resultado, deixe ''.
     destaques: [
-      { titulo: 'InfinitePay', nicho: 'finanças', formato: 'ADS', video: 'midia/destaques/1.mp4', capa: 'midia/capas/5wf8Fv2CTa4.webp', res: '+100M views' },
-      { titulo: 'Méliuz', nicho: 'finanças', formato: 'ADS', video: 'midia/destaques/2.mp4', capa: 'midia/capas/wesTfq67X9o.webp', res: '+30M views' },
-      { titulo: "L'Oréal", nicho: 'beleza', formato: 'review', video: 'midia/destaques/3.mp4', capa: 'midia/capas/6kvtFKsPQPw.webp', res: '' }
+      { titulo: 'InfinitePay', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/5wf8Fv2CTa4', capa: 'midia/capas/5wf8Fv2CTa4.webp', res: '+100M views' },
+      { titulo: 'Méliuz', nicho: 'finanças', formato: 'ADS', video: 'https://youtube.com/shorts/wesTfq67X9o', capa: 'midia/capas/wesTfq67X9o.webp', res: '+30M views' },
+      { titulo: "L'Oréal", nicho: 'beleza', formato: 'review', video: 'https://youtube.com/shorts/6kvtFKsPQPw', capa: 'midia/capas/6kvtFKsPQPw.webp', res: '' }
     ],
 
-    // Nichos: cada um com nome e lista de vídeos (.mp4 na pasta midia/nichos/nome-do-nicho).
+    // Nichos: cada um com nome e lista de vídeos (link do YouTube ou arquivo .mp4).
     // O link ?c=nome-do-nicho (sem acento, com hífen) abre direto na página do nicho.
     // Ex.: seu-site/?c=casa-e-decoracao  ·  Mínimo 3 vídeos por nicho.
     nichos: [
       { nome: 'Casa e decoração', videos: [
-        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-1.mp4', capa: 'midia/capas/Imt3HZDlCXU.webp' }, // youtube.com/shorts/Imt3HZDlCXU
-        { titulo: 'Coza', formato: '', video: 'midia/nichos/casa-e-decoracao/coza.mp4', capa: 'midia/capas/1Fm5v3bSdKM.webp' }, // youtube.com/shorts/1Fm5v3bSdKM
-        { titulo: 'Coala', formato: '', video: 'midia/nichos/casa-e-decoracao/coala.mp4', capa: 'midia/capas/plSEfBiygVw.webp' }, // youtube.com/shorts/plSEfBiygVw
-        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-1.mp4', capa: 'midia/capas/R-y96AP_NLo.webp' }, // youtube.com/shorts/R-y96AP_NLo
-        { titulo: 'Mez Móveis', formato: '', video: 'midia/nichos/casa-e-decoracao/mez-moveis-2.mp4', capa: 'midia/capas/mEc4A2oJ0_w.webp' }, // youtube.com/shorts/mEc4A2oJ0_w
-        { titulo: 'DT3', formato: '', video: 'midia/nichos/casa-e-decoracao/dt3-2.mp4', capa: 'midia/capas/JwblS_1IReM.webp' }, // youtube.com/shorts/JwblS_1IReM
-        { titulo: 'Vinagreen', formato: '', video: 'midia/nichos/casa-e-decoracao/vinagreen.mp4', capa: 'midia/capas/8T_dTUk5oX4.webp' }, // youtube.com/shorts/8T_dTUk5oX4
+        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/Imt3HZDlCXU', capa: 'midia/capas/Imt3HZDlCXU.webp' },
+        { titulo: 'Coza', formato: '', video: 'https://youtube.com/shorts/1Fm5v3bSdKM', capa: 'midia/capas/1Fm5v3bSdKM.webp' },
+        { titulo: 'Coala', formato: '', video: 'https://youtube.com/shorts/plSEfBiygVw', capa: 'midia/capas/plSEfBiygVw.webp' },
+        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/R-y96AP_NLo', capa: 'midia/capas/R-y96AP_NLo.webp' },
+        { titulo: 'Mez Móveis', formato: '', video: 'https://youtube.com/shorts/mEc4A2oJ0_w', capa: 'midia/capas/mEc4A2oJ0_w.webp' },
+        { titulo: 'DT3', formato: '', video: 'https://youtube.com/shorts/JwblS_1IReM', capa: 'midia/capas/JwblS_1IReM.webp' },
+        { titulo: 'Vinagreen', formato: '', video: 'https://youtube.com/shorts/8T_dTUk5oX4', capa: 'midia/capas/8T_dTUk5oX4.webp' },
       ]},
       { nome: 'Tech', videos: [
-        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/tech/bv-1.mp4', capa: 'midia/capas/2NMavMHi4jM.webp' }, // youtube.com/shorts/2NMavMHi4jM
-        { titulo: 'BV Financeiro', formato: '', video: 'midia/nichos/tech/bv-2.mp4', capa: 'midia/capas/Q_n4uwkxiDo.webp' }, // youtube.com/shorts/Q_n4uwkxiDo
-        { titulo: 'Voy Saúde', formato: '', video: 'midia/nichos/tech/voy-saude.mp4', capa: 'midia/capas/sIqDyvDsaZA.webp' }, // youtube.com/shorts/sIqDyvDsaZA
+        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/2NMavMHi4jM', capa: 'midia/capas/2NMavMHi4jM.webp' },
+        { titulo: 'BV Financeiro', formato: '', video: 'https://youtube.com/shorts/Q_n4uwkxiDo', capa: 'midia/capas/Q_n4uwkxiDo.webp' },
+        { titulo: 'Voy Saúde', formato: '', video: 'https://youtube.com/shorts/sIqDyvDsaZA', capa: 'midia/capas/sIqDyvDsaZA.webp' },
       ]},
       { nome: 'Viagem', videos: [
-        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-1.mp4', capa: 'midia/capas/7TzuVW8847A.webp' }, // youtube.com/shorts/7TzuVW8847A
-        { titulo: 'OKA House', formato: '', video: 'midia/nichos/viagem/oka-house-2.mp4', capa: 'midia/capas/DzIWctdbjgg.webp' }, // youtube.com/shorts/DzIWctdbjgg
+        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/7TzuVW8847A', capa: 'midia/capas/7TzuVW8847A.webp' },
+        { titulo: 'OKA House', formato: '', video: 'https://youtube.com/shorts/DzIWctdbjgg', capa: 'midia/capas/DzIWctdbjgg.webp' },
       ]},
       { nome: 'Comida', videos: [
-        { titulo: 'Wine', formato: '', video: 'midia/nichos/comida/wine.mp4', capa: 'midia/capas/wW7381aUhwk.webp' }, // youtube.com/shorts/wW7381aUhwk
-        { titulo: 'Ateliê', formato: '', video: 'midia/nichos/comida/atelie.mp4', capa: 'midia/capas/0FhBNV71z9A.webp' }, // youtube.com/shorts/0FhBNV71z9A
-        { titulo: 'Rap10', formato: '', video: 'midia/nichos/comida/rap10.mp4', capa: 'midia/capas/orhbzi_XYiA.webp' }, // youtube.com/shorts/orhbzi_XYiA
-        { titulo: 'Cafeza', formato: '', video: 'midia/nichos/comida/cafeza.mp4', capa: 'midia/capas/R-PC_tGXdFk.webp' }, // youtube.com/shorts/R-PC_tGXdFk
-        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-1.mp4', capa: 'midia/capas/bUf0ItCQdUU.webp' }, // youtube.com/shorts/bUf0ItCQdUU
-        { titulo: 'Tropical', formato: '', video: 'midia/nichos/comida/tropical-2.mp4', capa: 'midia/capas/vFmYLAliwIk.webp' }, // youtube.com/shorts/vFmYLAliwIk
-        { titulo: 'Smoo Sorvete', formato: '', video: 'midia/nichos/comida/smoo-sorvete.mp4', capa: 'midia/capas/AXzcHi_Qq_Y.webp' }, // youtube.com/shorts/AXzcHi_Qq_Y
+        { titulo: 'Wine', formato: '', video: 'https://youtube.com/shorts/wW7381aUhwk', capa: 'midia/capas/wW7381aUhwk.webp' },
+        { titulo: 'Ateliê', formato: '', video: 'https://youtube.com/shorts/0FhBNV71z9A', capa: 'midia/capas/0FhBNV71z9A.webp' },
+        { titulo: 'Rap10', formato: '', video: 'https://youtube.com/shorts/orhbzi_XYiA', capa: 'midia/capas/orhbzi_XYiA.webp' },
+        { titulo: 'Cafeza', formato: '', video: 'https://youtube.com/shorts/R-PC_tGXdFk', capa: 'midia/capas/R-PC_tGXdFk.webp' },
+        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/bUf0ItCQdUU', capa: 'midia/capas/bUf0ItCQdUU.webp' },
+        { titulo: 'Tropical', formato: '', video: 'https://youtube.com/shorts/vFmYLAliwIk', capa: 'midia/capas/vFmYLAliwIk.webp' },
+        { titulo: 'Smoo Sorvete', formato: '', video: 'https://youtube.com/shorts/AXzcHi_Qq_Y', capa: 'midia/capas/AXzcHi_Qq_Y.webp' },
       ]},
       { nome: 'Beleza', videos: [
-        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-1.mp4', capa: 'midia/capas/XwhHAl2LJ6k.webp' }, // youtube.com/shorts/XwhHAl2LJ6k
-        { titulo: 'Box Magenta', formato: '', video: 'midia/nichos/beleza/box-magenta-2.mp4', capa: 'midia/capas/cDRldAKYyKU.webp' }, // youtube.com/shorts/cDRldAKYyKU
-        { titulo: 'Cand Óculos', formato: '', video: 'midia/nichos/beleza/cand-oculos.mp4', capa: 'midia/capas/JPz1wMt_R4I.webp' }, // youtube.com/shorts/JPz1wMt_R4I
-        { titulo: 'Quintal', formato: '', video: 'midia/nichos/beleza/quintal.mp4', capa: 'midia/capas/U_T_I-vcM7k.webp' }, // youtube.com/shorts/U_T_I-vcM7k
-        { titulo: 'Bem Me Fiz', formato: '', video: 'midia/nichos/beleza/bem-me-fiz.mp4', capa: 'midia/capas/P3UrVHbwI9g.webp' }, // youtube.com/shorts/P3UrVHbwI9g
+        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/XwhHAl2LJ6k', capa: 'midia/capas/XwhHAl2LJ6k.webp' },
+        { titulo: 'Box Magenta', formato: '', video: 'https://youtube.com/shorts/cDRldAKYyKU', capa: 'midia/capas/cDRldAKYyKU.webp' },
+        { titulo: 'Cand Óculos', formato: '', video: 'https://youtube.com/shorts/JPz1wMt_R4I', capa: 'midia/capas/JPz1wMt_R4I.webp' },
+        { titulo: 'Quintal', formato: '', video: 'https://youtube.com/shorts/U_T_I-vcM7k', capa: 'midia/capas/U_T_I-vcM7k.webp' },
+        { titulo: 'Bem Me Fiz', formato: '', video: 'https://youtube.com/shorts/P3UrVHbwI9g', capa: 'midia/capas/P3UrVHbwI9g.webp' },
       ]},
       { nome: 'Suplementos', videos: [
-        { titulo: 'Untamed', formato: '', video: 'midia/nichos/suplementos/untamed.mp4', capa: 'midia/capas/lnrpiDm9TjE.webp' }, // youtube.com/shorts/lnrpiDm9TjE
+        { titulo: 'Untamed', formato: '', video: 'https://youtube.com/shorts/lnrpiDm9TjE', capa: 'midia/capas/lnrpiDm9TjE.webp' },
       ]},
       { nome: 'Moda', videos: [
-        { titulo: 'Midas Time', formato: '', video: 'midia/nichos/moda/midas-time.mp4', capa: 'midia/capas/wZgUdGFouNA.webp' }, // youtube.com/shorts/wZgUdGFouNA
+        { titulo: 'Midas Time', formato: '', video: 'https://youtube.com/shorts/wZgUdGFouNA', capa: 'midia/capas/wZgUdGFouNA.webp' },
       ]}
     ],
 
